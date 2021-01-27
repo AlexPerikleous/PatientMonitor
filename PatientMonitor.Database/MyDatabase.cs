@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
+using PatientMonitor.Entities;
 
 namespace PatientMonitor.Database
 {
@@ -13,5 +14,11 @@ namespace PatientMonitor.Database
         {
 
         }
+
+        public DbSet<Patient> Patients { get; set; }
+        public DbSet<MorbidityGroup> MorbidityGroups { get; set; }
+        public DbSet<PatientMorbidityGroup> PatientMorbidityGroups { get; set; }
+        public DbSet<SymptomInstance> SymptomInstances { get; set; }
+
     }
 }
