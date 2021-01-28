@@ -11,7 +11,11 @@ namespace PatientMonitor.Services
 {
     public class SymptomInstanceRepository
     {
-        MyDatabase db = new MyDatabase();
+        private MyDatabase db;
+        public SymptomInstanceRepository(MyDatabase db)
+        {
+            this.db = db;
+        }
 
         //GetAll()
         public IEnumerable<SymptomInstance> GetAll()
@@ -24,11 +28,27 @@ namespace PatientMonitor.Services
         {
             return db.SymptomInstances.Find(id);
         }
+
+        //GetByPatientId
+        public IEnumerable<SymptomInstance> GetAllByPatientId(int? id)
+        {
+            return db.SymptomInstances.Where(s=>s.PatientId == id).ToList();
+        }
         //Insert
         public void Insert(SymptomInstance SymptomInstance)
         {
             db.Entry(SymptomInstance).State = EntityState.Added;
             db.SaveChanges();
+        }
+
+        //Create
+        public void Create(string symptomInstanceName, DateTime dateOfOccurrence, int patientId, PatientRepository patientRepository)
+        {
+            if (patientRepository.GetById(patientId) != null)
+            {
+                SymptomInstance symptomInstance = new SymptomInstance() { Name = symptomInstanceName, DateOfOccurrence = dateOfOccurrence, PatientId = patientId };
+                Insert(symptomInstance);
+            }
         }
 
         //Update

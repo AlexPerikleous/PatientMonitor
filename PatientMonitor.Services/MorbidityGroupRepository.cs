@@ -11,7 +11,11 @@ namespace PatientMonitor.Services
 {
     public class MorbidityGroupRepository
     {
-        MyDatabase db = new MyDatabase();
+        private MyDatabase db;
+        public MorbidityGroupRepository(MyDatabase db)
+        {
+            this.db = db;
+        }
 
         //GetAll()
         public IEnumerable<MorbidityGroup> GetAll()
@@ -24,6 +28,12 @@ namespace PatientMonitor.Services
         {
             return db.MorbidityGroups.Find(id);
         }
+
+        //GetByName
+        public MorbidityGroup GetByName(string name)
+        {
+            return db.MorbidityGroups.FirstOrDefault(mg=>mg.Name == name);
+        }
         //Insert
         public void Insert(MorbidityGroup MorbidityGroup)
         {
@@ -31,6 +41,12 @@ namespace PatientMonitor.Services
             db.SaveChanges();
         }
 
+        //Create
+        public void Create(string morbidityGroupName)
+        {
+            MorbidityGroup morbidityGroup = new MorbidityGroup() { Name = morbidityGroupName };
+            Insert(morbidityGroup);
+        }
         //Update
         public void Update(MorbidityGroup MorbidityGroup)
         {
